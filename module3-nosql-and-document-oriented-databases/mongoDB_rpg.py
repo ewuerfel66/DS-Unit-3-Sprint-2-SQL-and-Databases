@@ -34,3 +34,13 @@ for row in data:
         'wisdom':row[8]
     }
     db.test.insert_one(char_doc)
+
+# Entering data in MongoDB was much easier because the
+# data doesn't have to be structured consistently. You
+# don't even have to create an empty table beforehand.
+
+# Data retrieval seems more complicated in MongoDB than
+# PostgreSQL. If you are trying to retrieve data that is
+# inconsistantly structured, you'll have to create 
+# DataFrames or tables that match the structure of the 
+# data you're retrieving which can get tricky.
