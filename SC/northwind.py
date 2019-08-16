@@ -9,12 +9,16 @@ conn = sqlite3.connect('northwind_small.sqlite3')
 curs = conn.cursor()
 
 
-# What are the 10 most expensive items?
-query = """SELECT ProductName, UnitPrice FROM Product
-ORDER BY UnitPrice DESC
-LIMIT 10;"""
+# Make a function for queries
+def query(string):
+    curs.execute(string)
 
-curs.execute(query)
+    
+
+# What are the 10 most expensive items?
+query("""SELECT ProductName, UnitPrice FROM Product
+ORDER BY UnitPrice DESC
+LIMIT 10;""")
 
 print('What are the 10 most expensive items?')
 print('(Product, Unit Price)', curs.fetchall())
@@ -22,20 +26,16 @@ print('')
 
 
 # Average age of employee at time of hiring
-query = """SELECT AVG(HireDate - BirthDate) AS AvgHiringAge FROM Employee;"""
-
-curs.execute(query)
+query("""SELECT AVG(HireDate - BirthDate) AS AvgHiringAge FROM Employee;""")
 
 print('Average Hire Age:', curs.fetchall()[0])
 print('')
 
 
 # Average age of employee at time of hiring by City
-query = """SELECT City, AVG(HireDate - BirthDate) AS AvgHiringAge FROM Employee
+query("""SELECT City, AVG(HireDate - BirthDate) AS AvgHiringAge FROM Employee
 GROUP BY City
-ORDER BY AvgHiringAge DESC;"""
-
-curs.execute(query)
+ORDER BY AvgHiringAge DESC;""")
 
 print('Average age of employee at time of hiring by City')
 print('(City, Average Hire Age)', curs.fetchall())
@@ -47,12 +47,10 @@ print('')
 ##############
 
 # What are the 10 most expensive items and the supplier?
-query = """SELECT CompanyName AS Supplier, ProductName, UnitPrice FROM Product, Supplier
+query("""SELECT CompanyName AS Supplier, ProductName, UnitPrice FROM Product, Supplier
 WHERE Product.SupplierId = Supplier.Id
 ORDER BY UnitPrice DESC
-LIMIT 10;"""
-
-curs.execute(query)
+LIMIT 10;""")
 
 print('What are the 10 most expensive items and the supplier?')
 print('(Supplier, Product, Unit Price)', curs.fetchall())
@@ -60,13 +58,11 @@ print('')
 
 
 # What is the largest category?
-query = """SELECT CategoryName, MAX(Items) FROM
+query("""SELECT CategoryName, MAX(Items) FROM
 (SELECT Category.CategoryName, COUNT(Product.Id) AS Items
 FROM Category, Product
 WHERE Category.Id = Product.CategoryId
-GROUP BY Category.Id);"""
-
-curs.execute(query)
+GROUP BY Category.Id);""")
 
 print('Largest Category by Unique Items:')
 print('(Category, Count of Items)', curs.fetchall())
