@@ -66,3 +66,16 @@ GROUP BY Category.Id);""")
 
 print('Largest Category by Unique Items:')
 print('(Category, Count of Items)', curs.fetchall())
+print('')
+
+query("""SELECT FirstName, LastName, MAX(Territories) FROM
+(SELECT Employee.FirstName, Employee.LastName, COUNT(Territory.Id) AS Territories
+FROM  Employee
+JOIN EmployeeTerritory
+JOIN Territory
+WHERE Employee.Id = EmployeeTerritory.EmployeeId
+AND EmployeeTerritory.TerritoryId = Territory.Id
+GROUP BY Employee.Id);""")
+
+print('Employee with most Territories:')
+print('(First, Last, Territories)', curs.fetchall())
